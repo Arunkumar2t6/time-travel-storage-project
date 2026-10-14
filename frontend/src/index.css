@@ -1,0 +1,148 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-ink: #0c1014;
+  --color-paper: #e8e4d9;
+  --color-mist: #1a222c;
+  --color-brass: #d4a24c;
+  --color-brass-dim: #9a7434;
+  --color-line: #2a3542;
+  --color-success: #6fbf8a;
+  --color-danger: #e07a5f;
+  --ink: 12 16 20;
+  --paper: 232 228 217;
+  --mist: 26 34 44;
+  --brass: 212 162 76;
+  --brass-dim: 154 116 52;
+  --line: 42 53 66;
+  --success: 111 191 138;
+  --danger: 224 122 95;
+  --font-display: "Syne", sans-serif;
+  --font-body: "Outfit", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  color: var(--color-paper);
+  background:
+    radial-gradient(1200px 600px at 10% -10%, color-mix(in oklab, var(--color-brass) 14%, transparent), transparent 55%),
+    radial-gradient(900px 500px at 95% 0%, color-mix(in oklab, #3d6b8c 18%, transparent), transparent 50%),
+    linear-gradient(165deg, #0a0e12 0%, var(--color-ink) 45%, #111820 100%);
+  background-attachment: fixed;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--color-brass) 45%, transparent);
+  color: var(--color-ink);
+}
+
+@layer components {
+  .vault-panel {
+    border: 1px solid var(--color-line);
+    background: color-mix(in oklab, var(--color-mist) 70%, transparent);
+    backdrop-filter: blur(8px);
+  }
+
+  .vault-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid color-mix(in oklab, var(--color-brass) 40%, transparent);
+    background: var(--color-brass);
+    padding: 0.5rem 1rem;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .vault-btn:hover {
+    background: var(--color-brass-dim);
+    color: var(--color-paper);
+  }
+
+  .vault-btn:focus-visible {
+    outline: 2px solid var(--color-brass);
+    outline-offset: 2px;
+  }
+
+  .vault-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .vault-btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 1px solid var(--color-line);
+    background: transparent;
+    padding: 0.5rem 1rem;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-paper);
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+
+  .vault-btn-ghost:hover {
+    border-color: color-mix(in oklab, var(--color-brass) 50%, transparent);
+    color: var(--color-brass);
+  }
+
+  .vault-btn-ghost:focus-visible {
+    outline: 2px solid var(--color-brass);
+    outline-offset: 2px;
+  }
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  background: var(--color-line);
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 0;
+  background: var(--color-brass);
+  border: 2px solid var(--color-paper);
+  cursor: pointer;
+  box-shadow: 0 0 12px color-mix(in oklab, var(--color-brass) 50%, transparent);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 0;
+  background: var(--color-brass);
+  border: 2px solid var(--color-paper);
+  cursor: pointer;
+}

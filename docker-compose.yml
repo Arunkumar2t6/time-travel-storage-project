@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: timetravel
+      POSTGRES_PASSWORD: timetravel
+      POSTGRES_DB: timetravel
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./backend/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U timetravel -d timetravel"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+      start_period: 5s
+
+  api:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://timetravel:timetravel@db:5432/timetravel
+      USE_LOCAL_STORAGE: "true"
+      LOCAL_STORAGE_PATH: /data/blocks
+      CHUNK_SIZE_BYTES: "262144"
+      CORS_ORIGINS: http://localhost:5173
+    volumes:
+      - blockdata:/data/blocks
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  blockdata:
