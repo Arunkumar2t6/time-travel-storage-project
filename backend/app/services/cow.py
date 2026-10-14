@@ -18,11 +18,11 @@ from app.schemas import (
     VersionDeleteResult,
 )
 from app.storage.chunker import chunk_bytes
-from app.storage.r2 import BlockStore
+from app.storage.object_store import BlockStore
 
 
 class CoWService:
-    """Copy-on-Write deduplication engine over Neon + R2."""
+    """Copy-on-Write deduplication engine over Neon Postgres + Object Storage."""
 
     def __init__(self, db: Session, store: BlockStore, settings: Settings):
         self.db = db

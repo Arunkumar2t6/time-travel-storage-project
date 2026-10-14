@@ -18,7 +18,7 @@ from app.schemas import (
     VersionDeleteResult,
 )
 from app.services.cow import CoWService
-from app.storage.r2 import BlockStore
+from app.storage.object_store import BlockStore
 
 router = APIRouter(prefix="/api/files", tags=["files"])
 

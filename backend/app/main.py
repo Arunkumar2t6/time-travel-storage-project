@@ -40,5 +40,5 @@ def health():
         "status": "ok",
         "service": "time-travel-cow-vault",
         "chunk_size_bytes": settings.chunk_size_bytes,
-        "storage": "local" if settings.use_local_storage else "r2",
+        "storage": "local" if settings.use_local_storage else "neon_object_storage",
     }

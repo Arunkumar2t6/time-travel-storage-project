@@ -192,7 +192,7 @@ export default function App() {
       </div>
 
       <footer className="mt-12 border-t border-line pt-6 font-mono text-[11px] text-paper/35">
-        Neon · Cloudflare R2 · FastAPI · 256 KB CAS blocks
+        Neon Postgres + Object Storage · FastAPI · 256 KB CAS blocks
       </footer>
     </div>
   );

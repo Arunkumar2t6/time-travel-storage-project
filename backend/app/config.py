@@ -11,11 +11,14 @@ class Settings(BaseSettings):
     )
 
     database_url: str = "postgresql://localhost:5432/time_travel"
-    r2_account_id: str = ""
-    r2_access_key_id: str = ""
-    r2_secret_access_key: str = ""
-    r2_bucket_name: str = "time-travel-blocks"
-    r2_endpoint_url: str = ""
+
+    # Neon Object Storage (S3-compatible). Matches vars from `neon deploy` / `neon env pull`.
+    aws_access_key_id: str = ""
+    aws_secret_access_key: str = ""
+    aws_endpoint_url_s3: str = ""
+    aws_region: str = "us-east-2"
+    s3_bucket_name: str = "time-travel-blocks"
+
     chunk_size_bytes: int = 256 * 1024  # 256 KB
     cors_origins: str = "http://localhost:5173"
     use_local_storage: bool = False
@@ -26,12 +29,8 @@ class Settings(BaseSettings):
         return [o.strip() for o in self.cors_origins.split(",") if o.strip()]
 
     @property
-    def resolved_r2_endpoint(self) -> str:
-        if self.r2_endpoint_url:
-            return self.r2_endpoint_url
-        if self.r2_account_id:
-            return f"https://{self.r2_account_id}.r2.cloudflarestorage.com"
-        return ""
+    def resolved_s3_endpoint(self) -> str:
+        return (self.aws_endpoint_url_s3 or "").rstrip("/")
 
     @property
     def sqlalchemy_url(self) -> str:
