@@ -1,6 +1,7 @@
 from collections.abc import Iterator
 from urllib.parse import quote
 
+from botocore.exceptions import BotoCoreError, ClientError
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, UploadFile
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
@@ -53,6 +54,17 @@ async def upload_file(
         return cow.upload(file.filename, data, file_id=file_id)
     except ValueError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except (ClientError, BotoCoreError) as exc:
+        # Surface Neon Object Storage failures (browser otherwise shows a fake CORS error)
+        raise HTTPException(
+            status_code=502,
+            detail=f"Object storage error: {exc}",
+        ) from exc
+    except Exception as exc:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Upload failed: {type(exc).__name__}: {exc}",
+        ) from exc
 
 
 @router.get("", response_model=list[FileOut])
